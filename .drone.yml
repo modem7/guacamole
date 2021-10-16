@@ -14,10 +14,11 @@ steps:
   pull: if-not-exists
   commands:
     - hadolint --version
-    - hadolint */Dockerfile
+    - hadolint Dockerfile*
 
 - name: Build  
   image: thegeeklab/drone-docker-buildx
+  privileged: true
   settings:
     repo: modem7/guacamole
     purge: true
