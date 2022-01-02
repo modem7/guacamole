@@ -14,9 +14,9 @@ steps:
   pull: if-not-exists
   commands:
     - hadolint --version
-    - hadolint Dockerfile*
+    - hadolint */Dockerfile
 
-- name: Build  
+- name: Latest  
   image: thegeeklab/drone-docker-buildx
   privileged: true
   settings:
@@ -25,6 +25,7 @@ steps:
     compress: true
     use_cache: true
     cache_from: "modem7/guacamole:latest"
+    dockerfile: latest/Dockerfile
     platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
       - linux/amd64
     username:
@@ -32,6 +33,56 @@ steps:
     password:
       from_secret: docker_password
     tags: latest
+
+- name: slack
+  image: themaz/drone-slack
+  settings:
+    webhook:
+      from_secret: slack_hook
+  when:
+    status: [ success, failure ]
+
+trigger:
+  event:
+  - cron
+  cron:
+  - guacamole_monthly_build
+
+---
+
+kind: pipeline
+type: docker
+name: versioned
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: Lint Dockerfile
+  image: hadolint/hadolint:latest-alpine
+  pull: if-not-exists
+  commands:
+    - hadolint --version
+    - hadolint */Dockerfile
+
+- name: Versioned
+  image: thegeeklab/drone-docker-buildx
+  privileged: true
+  settings:
+    repo: modem7/guacamole
+    purge: true
+    compress: true
+    use_cache: true
+    cache_from: "modem7/guacamole:1.3.0"
+    dockerfile: versioned/Dockerfile
+    platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
+      - linux/amd64
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    tags: "1.3.0"
 
 - name: slack
   image: themaz/drone-slack
