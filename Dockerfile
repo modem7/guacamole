@@ -15,7 +15,7 @@
 #
 # URLs for Guacamole downloads were also updated
 
-FROM library/tomcat:9.0.56-jre11
+FROM library/tomcat:10.0.14-jre11
 
 ENV ARCH=amd64 \
   GUACAMOLE_HOME=/app/guacamole \
