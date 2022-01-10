@@ -3,9 +3,8 @@
 [![Build Status](https://drone.modem7.com/api/badges/modem7/guacamole/status.svg)](https://drone.modem7.com/modem7/guacamole) 
 [![GitHub last commit](https://img.shields.io/github/last-commit/modem7/guacamole)](https://github.com/modem7/guacamole)
 
-Based on https://github.com/abesnier/docker-guacamole
-
 ## Guacamole all in one image with Powerline and Powerline fonts for Oh-My-ZSH
+Based on https://github.com/abesnier/docker-guacamole
 
 ![image](https://user-images.githubusercontent.com/4349962/137602364-3f32811b-093a-4d8b-bbde-7c6c86fdbbf3.png)
 
